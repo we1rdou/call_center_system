@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Call Center - Gestión de Llamadas</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function actualizarLlamadas() {
+            try {
+                const response = await fetch('/llamadas');
+                const data = await response.json();
+
+                // Actualizar contadores
+                document.getElementById("contadorAtendidas").textContent = data.llamadas_atendidas.length;
+                document.getElementById("contadorPendientes").textContent = data.llamadas_pendientes;
+
+                // Actualizar barra de progreso
+                const progreso = (data.llamadas_atendidas.length / 50) * 100;
+                const progressBar = document.getElementById("progressBar");
+                progressBar.style.width = progreso + "%";
+                progressBar.textContent = `${data.llamadas_atendidas.length} / 50`;
+
+                // Actualizar llamadas pendientes
+                const listaPendientes = document.getElementById("llamadasPendientes");
+                listaPendientes.innerHTML = "";
+                for (let i = 0; i < data.llamadas_pendientes; i++) {
+                    const item = document.createElement("li");
+                    item.textContent = `Llamada pendiente ${i + 1}`;
+                    listaPendientes.appendChild(item);
+                }
+
+                // Actualizar llamadas atendidas
+                const listaAtendidas = document.getElementById("llamadasAtendidas");
+                listaAtendidas.innerHTML = "";
+                data.llamadas_atendidas.forEach((llamada, index) => {
+                    const item = document.createElement("li");
+                    item.textContent = `ID: ${llamada.id} - ${llamada.cliente} - ${llamada.estado} - ${llamada.atendida_en}`;
+                    // Resaltar la última llamada atendida
+                    if (index === data.llamadas_atendidas.length - 1) {
+                        item.classList.add("last-call");
+                    }
+                    listaAtendidas.appendChild(item);
+                });
+            } catch (error) {
+                console.error("Error al actualizar llamadas:", error);
+            }
+        }
+
+        async function reiniciarSistema() {
+            await fetch('/reiniciar', { method: 'POST' });
+            actualizarLlamadas();
+        }
+
+        setInterval(actualizarLlamadas, 1000);
+    </script>
+</head>
+<body>
+    <h1>Gestión de Llamadas - Call Center</h1>
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar">0 / 50</div>
+    </div>
+    <div class="container">
+        <div class="panel">
+            <h3>Llamadas Entrantes (<span id="contadorPendientes">0</span>):</h3>
+            <ul id="llamadasPendientes"></ul>
+        </div>
+        <div class="panel">
+            <h3>Llamadas Atendidas (<span id="contadorAtendidas">0</span>):</h3>
+            <ul id="llamadasAtendidas"></ul>
+        </div>
+    </div>
+    <div class="center">
+        <button onclick="reiniciarSistema()">Reiniciar Sistema</button>
+    </div>
+</body>
+</html>

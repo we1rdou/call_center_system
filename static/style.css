@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 20px;
+}
+
+h1 {
+    color: #005f73;
+    text-align: center;
+}
+
+h3 {
+    color: #0a9396;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.panel {
+    width: 45%;
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #dff9fb;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+li:nth-child(odd) {
+    background: #c7ecee;
+}
+
+.last-call {
+    background-color: #a3d2ca;
+    font-weight: bold;
+}
+
+.progress-container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 25px;
+    width: 0%;
+    background-color: #005f73;
+    color: white;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 10px;
+}
+
+.center {
+    text-align: center;
+    margin: 20px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #0a9396;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #007b83;
+}
